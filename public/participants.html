@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participants</title>
+</head>
+<body>
+    <h1>Participants</h1>
+
+    [<a href = "index.html">Home</a>|<a href = "tracks.html">Tracks</a>|<a href = "customers.html">Customers</a>|<a href = "gokarts.html">GoKarts</a>|<a href = "races.html">Races</a>|<a href = "participants.html">Participants</a>]
+
+    <h2> Feel free to add, update or delete participants! </h2>
+
+    <table border = "1" cellpadding = "5">
+    <thead>
+        <tr>
+        <th>participantID</th>
+        <th>raceID</th>
+        <th>kartID</th>
+        <th>customerID</th>
+        <th>finishPosition</th>
+        <th>lap1Time</th>
+        <th>lap2Time</th>
+        <th>lap3Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>57</td>
+        <td>58</td>
+        <td>56</td>
+        </tr>
+        <tr>
+        <td>2</td>
+        <td>1</td>
+        <td>2</td>
+        <td>2</td>
+        <td>2</td>
+        <td>60</td>
+        <td>59</td>
+        <td>61</td>
+        </tr>
+        <tr>
+        <td>3</td>
+        <td>2</td>
+        <td>3</td>
+        <td>3</td>
+        <td>3</td>
+        <td>210</td>
+        <td>205</td>
+        <td>207</td>
+        </tr>
+        <tr>
+        <td>4</td>
+        <td>2</td>
+        <td>4</td>
+        <td>4</td>
+        <td>4</td>
+        <td>212</td>
+        <td>209</td>
+        <td>211</td>
+        </tr>
+    </tbody>
+    </table>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Add Participant</legend>
+            <label>Race ID: </label>
+            <input type = "number" name = "raceID">
+            <label>Kart ID: </label>
+            <input type = "number" name = "kartID">
+            <label>Customer ID: </label>
+            <input type = "number" name = "customerID">
+            <label>Finish Position: </label>
+            <input type = "number" name = "finishPosition">
+            <label>Lap 1 Time: </label>
+            <input type = "number" name = "lap1Time">
+            <label>Lap 2 Time: </label>
+            <input type = "number" name = "lap2Time">
+            <label>Lap 3 Time: </label>
+            <input type = "number" name = "lap3Time">
+            <input type="submit" value="Add Participant">
+        </fieldset>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Edit Participant</legend>
+            <label>Race ID: </label>
+            <input type = "number" name = "raceID">
+            <label>Kart ID: </label>
+            <input type = "number" name = "kartID">
+            <label>Customer ID: </label>
+            <input type = "number" name = "customerID">
+            <label>Finish Position: </label>
+            <input type = "number" name = "finishPosition">
+            <label>Lap 1 Time: </label>
+            <input type = "number" name = "lap1Time">
+            <label>Lap 2 Time: </label>
+            <input type = "number" name = "lap2Time">
+            <label>Lap 3 Time: </label>
+            <input type = "number" name = "lap3Time">
+            <input type="submit" value="Edit Participant">
+        </fieldset>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <Legend>Delete Participant</Legend>
+            <label for="participants">Choose a Participant to Delete:</label>
+            <select id="participants" name="participants">
+                <option value="participant1">Participant 1</option>
+                <option value="participant2">Participant 2</option>
+                <option value="participant3">Participant 3</option>
+                <option value="participant4">Participant 4</option>
+            </select>
+            <input type="submit" value="Delete Participant">
+        </fieldset>
+    </form>
+</body>
+<footer>
+    <p>&copy; 2023 Andrew Paumier & Seth Bard</p>
+</footer>
+</html>

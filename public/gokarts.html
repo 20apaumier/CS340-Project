@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoKarts</title>
+</head>
+<body>
+    <h1>GoKarts</h1>
+
+    [<a href = "index.html">Home</a>|<a href="tracks.html">Tracks</a>|<a href="customers.html">Customers</a>|<a href="gokarts.html">GoKarts</a>|<a href="races.html">Races</a>|<a href="participants.html">Participants</a>]
+
+    <h2>Feel free to add, update or delete gokarts!</h2>
+
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>kartID</th>
+                <th>trackID</th>
+                <th>model</th>
+                <th>class</th>
+                <th>maxSpeed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>Model A</td>
+                <td>Standard</td>
+                <td>80</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>1</td>
+                <td>Model B</td>
+                <td>Super</td>
+                <td>90</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>Model C</td>
+                <td>Rally</td>
+                <td>70</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>3</td>
+                <td>Model D</td>
+                <td>Pro</td>
+                <td>110</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Add GoKart</legend>
+            <label>Track ID: </label>
+            <input type="number" name="trackID">
+            <label>Model: </label>
+            <input type="text" name="model">
+            <label>Class: </label>
+            <input type="text" name="class">
+            <label>Max Speed: </label>
+            <input type="number" name="maxSpeed">
+            <input type="submit" value="Add GoKart">
+        </fieldset>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Edit GoKart</legend>
+            <label>Track ID: </label>
+            <input type="number" name="trackID">
+            <label>Model: </label>
+            <input type="text" name="model">
+            <label>Class: </label>
+            <input type="text" name="class">
+            <label>Max Speed: </label>
+            <input type="number" name="maxSpeed">
+            <input type="submit" value="Edit GoKart">
+        </fieldset>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Delete GoKart</legend>
+            <label for="gokarts">Choose a GoKart to Delete:</label>
+            <select id="gokarts" name="gokarts">
+                <option value="gokart1">GoKart 1</option>
+                <option value="gokart2">GoKart 2</option>
+                <option value="gokart3">GoKart 3</option>
+                <option value="gokart4">GoKart 4</option>
+            </select>
+            <input type="submit" value="Delete GoKart">
+        </fieldset>
+    </form>
+</body>
+<footer>
+    <p>&copy; 2023 Andrew Paumier & Seth Bard</p>
+</footer>
+</html>

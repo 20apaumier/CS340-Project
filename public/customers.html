@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers</title>
+</head>
+<body>
+    <h1>Customers</h1>
+
+    [<a href = "index.html">Home</a>|<a href="tracks.html">Tracks</a>|<a href="customers.html">Customers</a>|<a href="gokarts.html">GoKarts</a>|<a href="races.html">Races</a>|<a href="participants.html">Participants</a>]
+
+    <h2>Feel free to add, update or delete customers!</h2>
+
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>customerID</th>
+                <th>name</th>
+                <th>age</th>
+                <th>contactInfo</th>
+                <th>racesCompleted</th>
+                <th>averageFinishPosition</th>
+                <th>firstPlaceFinishes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>John Doe</td>
+                <td>32</td>
+                <td>johndoe@gmail.com</td>
+                <td>10</td>
+                <td>3</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jane Smith</td>
+                <td>28</td>
+                <td>janesmith@gmail.com</td>
+                <td>15</td>
+                <td>2</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Bob Ross</td>
+                <td>38</td>
+                <td>bobross@gmail.com</td>
+                <td>8</td>
+                <td>5</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Alice Johnson</td>
+                <td>25</td>
+                <td>alicejohnson@gmail.com</td>
+                <td>12</td>
+                <td>1</td>
+                <td>7</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Add Customer</legend>
+            <label>Name: </label>
+            <input type="text" name="name">
+            <label>Age: </label>
+            <input type="number" name="age">
+            <label>Contact Info: </label>
+            <input type="text" name="contactInfo">
+            <label>Races Completed: </label>
+            <input type="number" name="racesCompleted">
+            <label>Average Finish Position: </label>
+            <input type="number" name="averageFinishPosition">
+            <label>First Place Finishes: </label>
+            <input type="number" name="firstPlaceFinishes">
+            <input type="submit" value="Add Customer">
+        </fieldset>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Edit Customer</legend>
+            <label>Name: </label>
+            <input type="text" name="name">
+            <label>Age: </label>
+            <input type="number" name="age">
+            <label>Contact Info: </label>
+            <input type="text" name="contactInfo">
+            <label>Races Completed: </label>
+            <input type="number" name="racesCompleted">
+            <label>Average Finish Position: </label>
+            <input type="number" name="averageFinishPosition">
+            <label>First Place Finishes: </label>
+            <input type="number" name="firstPlaceFinishes">
+            <input type="submit" value="Edit Customer">
+        </fieldset>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Delete Customer</legend>
+            <label for="customers">Choose a Customer to Delete:</label>
+            <select id="customers" name="customers">
+                <option value="customer1">Customer 1</option>
+                <option value="customer2">Customer 2</option>
+                <option value="customer3">Customer 3</option>
+                <option value="customer4">Customer 4</option>
+            </select>
+            <input type="submit" value="Delete Customer">
+        </fieldset>
+    </form>
+</body>
+<footer>
+    <p>&copy; 2023 Andrew Paumier & Seth Bard</p>
+</footer>
+</html>

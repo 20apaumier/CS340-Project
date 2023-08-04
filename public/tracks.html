@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracks</title>
+</head>
+<body>
+    <h1>Tracks</h1>
+
+    [<a href = "index.html">Home</a>|<a href = "tracks.html">Tracks</a>|<a href = "customers.html">Customers</a>|<a href = "gokarts.html">GoKarts</a>|<a href = "races.html">Races</a>|<a href = "participants.html">Participants</a>]
+    
+    <h2> Feel free to add, update or delete tracks! </h2>
+
+    <table border = "1" cellpadding = "5">
+    <thead>
+        <tr>
+        <th>trackID</th>
+        <th>trackName</th>
+        <th>length</th>
+        <th>surfaceType</th>
+        <th>recordLapTime</th>
+        <th>averageLapTime</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>1</td>
+        <td>Sprint Circuit</td>
+        <td>1000</td>
+        <td>Asphalt</td>
+        <td>55</td>
+        <td>60</td>
+        </tr>
+        <tr>
+        <td>2</td>
+        <td>Endurance Circuit</td>
+        <td>5000</td>
+        <td>Gravel</td>
+        <td>200</td>
+        <td>210</td>
+        </tr>
+        <tr>
+        <td>3</td>
+        <td>Speedway</td>
+        <td>1200</td>
+        <td>Concrete</td>
+        <td>45</td>
+        <td>50</td>
+        </tr>
+        <tr>
+        <td>4</td>
+        <td>Rally Cross</td>
+        <td>3000</td>
+        <td>Mixed</td>
+        <td>120</td>
+        <td>130</td>
+        </tr>
+    </tbody>
+    </table>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Add Track</legend>
+            <label>Track Name: </label>
+            <input type = "text" name = "trackName">
+            <label>Length: </label>
+            <input type = "number" name = "length">
+            <label>Surface Type: </label>
+            <input type = "text" name = "surfaceType">
+            <label>Record Lap Time: </label>
+            <input type = "number" name = "recordLapTime">
+            <label>Average Lap Time: </label>
+            <input type = "number" name = "averageLapTime">
+            <input type="submit" value="Add Track">
+        </fieldset>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Edit Track</legend>
+            <label for="tracks">Choose a Track:</label>
+            <select id="tracks" name="tracks">
+                <option value="track1">Track 1</option>
+                <option value="track2">Track 2</option>
+                <option value="track3">Track 3</option>
+                <option value="track4">Track 4</option>
+            </select>
+            <label>Track Name: </label>
+            <input type = "text" name = "trackName">
+            <label>Length: </label>
+            <input type = "number" name = "length">
+            <label>Surface Type: </label>
+            <input type = "text" name = "surfaceType">
+            <label>Record Lap Time: </label>
+            <input type = "number" name = "recordLapTime">
+            <label>Average Lap Time: </label>
+            <input type = "number" name = "averageLapTime">
+            <input type="submit" value="Edit Track">
+        </fieldset>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <form style="padding: 10px;">
+        <fieldset>
+            <legend>Delete Track</legend>
+            <label for="tracks">Choose a Track to Delete:</label>
+            <select id="tracks" name="tracks">
+                <option value="track1">Track 1</option>
+                <option value="track2">Track 2</option>
+                <option value="track3">Track 3</option>
+                <option value="track4">Track 4</option>
+            </select>
+            <input type="submit" value="Delete Track">
+        </fieldset>
+    </form>
+</body>
+<footer>
+    <p>&copy; 2023 Andrew Paumier & Seth Bard</p>
+</footer>
+</html>
