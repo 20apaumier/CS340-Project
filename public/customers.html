@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <title>Customers</title>
 </head>
 <body>
@@ -25,48 +26,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>32</td>
-                <td>johndoe@gmail.com</td>
-                <td>10</td>
-                <td>3</td>
-                <td>4</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Jane Smith</td>
-                <td>28</td>
-                <td>janesmith@gmail.com</td>
-                <td>15</td>
-                <td>2</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Bob Ross</td>
-                <td>38</td>
-                <td>bobross@gmail.com</td>
-                <td>8</td>
-                <td>5</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Alice Johnson</td>
-                <td>25</td>
-                <td>alicejohnson@gmail.com</td>
-                <td>12</td>
-                <td>1</td>
-                <td>7</td>
-            </tr>
         </tbody>
     </table>
 
     <p>&nbsp;</p>
 
-    <form style="padding: 10px;">
+    <form style="padding: 10px;" id = "addCustomerForm">
         <fieldset>
             <legend>Add Customer</legend>
             <label>Name: </label>
@@ -87,40 +52,144 @@
 
     <p>&nbsp;</p>
 
-    <form style="padding: 10px;">
+    <form style="padding: 10px;" id="editCustomerForm">
         <fieldset>
             <legend>Edit Customer</legend>
+            <label for="editCustomers">Choose a Customer to Edit:</label>
+            <select id="editCustomers" name="editCustomers">
+                <!-- Customer options will be filled dynamically -->
+            </select>
+            <br/>
             <label>Name: </label>
-            <input type="text" name="name">
+            <input type="text" id="editName" name="name">
             <label>Age: </label>
-            <input type="number" name="age">
+            <input type="number" id="editAge" name="age">
             <label>Contact Info: </label>
-            <input type="text" name="contactInfo">
+            <input type="text" id="editContactInfo" name="contactInfo">
             <label>Races Completed: </label>
-            <input type="number" name="racesCompleted">
+            <input type="number" id="editRacesCompleted" name="racesCompleted">
             <label>Average Finish Position: </label>
-            <input type="number" name="averageFinishPosition">
+            <input type="number" id="editAverageFinishPosition" name="averageFinishPosition">
             <label>First Place Finishes: </label>
-            <input type="number" name="firstPlaceFinishes">
+            <input type="number" id="editFirstPlaceFinishes" name="firstPlaceFinishes">
             <input type="submit" value="Edit Customer">
         </fieldset>
     </form>
 
     <p>&nbsp;</p>
 
-    <form style="padding: 10px;">
+    <form style="padding: 10px;" id = "deleteCustomerForm">
         <fieldset>
             <legend>Delete Customer</legend>
             <label for="customers">Choose a Customer to Delete:</label>
             <select id="customers" name="customers">
-                <option value="customer1">Customer 1</option>
-                <option value="customer2">Customer 2</option>
-                <option value="customer3">Customer 3</option>
-                <option value="customer4">Customer 4</option>
             </select>
             <input type="submit" value="Delete Customer">
         </fieldset>
     </form>
+
+
+<script>
+
+    // READ
+    $(document).ready(function(){
+        $.ajax({
+            url: '/customers',
+            type: 'GET',
+            success: function(response) {
+                var tbodyEl = $('tbody');
+                var selectEl = $('#customers'); // select element for delete form
+                var editSelectEl = $('#editCustomers'); // select element for edit form
+                
+                // Clear the select dropdowns before populating them
+                selectEl.empty();
+                editSelectEl.empty();
+
+                response.forEach(function(row) {
+                    tbodyEl.append('\
+                        <tr>\
+                            <td class="customerID">' + row.customerID + '</td>\
+                            <td class="name">' + row.name + '</td>\
+                            <td class="age">' + row.age + '</td>\
+                            <td class="contactInfo">' + row.contactInfo + '</td>\
+                            <td class="racesCompleted">' + row.racesCompleted + '</td>\
+                            <td class="averageFinishPosition">' + row.averageFinishPosition + '</td>\
+                            <td class="firstPlaceFinishes">' + row.firstPlaceFinishes + '</td>\
+                        </tr>\
+                    ');
+
+                    // Append each customer to the select dropdowns
+                    selectEl.append('\
+                        <option value="' + row.customerID + '">' + row.name + '</option>\
+                    ');
+                    editSelectEl.append('\
+                        <option value="' + row.customerID + '">' + row.name + '</option>\
+                    ');
+                });
+            }
+        });
+    });
+
+    // CREATE
+    $('#addCustomerForm').submit(function(event){
+        event.preventDefault(); // prevent form from refreshing page
+        var data = $(this).serializeArray().reduce(function(obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+        $.ajax({
+            url: '/customers',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                console.log('Customer added successfully');
+                location.reload(); // reload page to see the changes
+            }
+        });
+    });
+
+    // UPDATE
+    $('#editCustomerForm').submit(function(event){
+        event.preventDefault();
+        var customerID = $('#editCustomers').val(); // get the selected customer's ID
+
+        var data = $(this).serializeArray().reduce(function(obj, item) {
+            if(item.name !== 'editCustomers' && item.value) { // ignore 'editCustomers' and empty fields
+                obj[item.name] = item.value; // Only add fields that are filled out
+            }
+            return obj;
+        }, {});
+
+        $.ajax({
+            url: '/customers/' + customerID,
+            type: 'PUT',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                console.log('Customer updated successfully');
+                location.reload();
+            }
+        });
+    });
+
+    // DELETE
+    $('#deleteCustomerForm').submit(function(event){
+        event.preventDefault();
+        var customerID = $('#customers').val();
+        $.ajax({
+            url: '/customers/' + customerID,
+            type: 'DELETE',
+            success: function(response) {
+                console.log('Customer deleted successfully');
+                location.reload();
+            }
+        });
+    });
+
+</script>
+
+
 </body>
 <footer>
     <p>&copy; 2023 Andrew Paumier & Seth Bard</p>

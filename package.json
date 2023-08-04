@@ -9,8 +9,10 @@
   "author": "Andrew Paumier",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "jquery": "^3.7.0",
     "mysql": "^2.18.1",
     "path": "^0.12.7"
   }
