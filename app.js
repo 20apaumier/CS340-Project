@@ -80,8 +80,65 @@ app.delete('/customers/:id', function(req, res) {
     });
 });
 
-app.get('/gokarts', function(req, res) {
-    res.sendFile(path.join(__dirname, 'public/gokarts.html'));
+// CREATE
+app.post('/karts', function(req, res) {
+    var {trackID, model, kartClass, maxSpeed} = req.body;
+    var query = `INSERT INTO GoKarts (trackID, model, kartClass, maxSpeed) VALUES (?, ?, ?, ?)`;
+    pool.query(query, [trackID, model, kartClass, maxSpeed], function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
+});
+
+// READ
+app.get('/karts', function(req, res) {
+    var query = 'SELECT * FROM GoKarts';
+    pool.query(query, function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.json(result);
+    });
+});
+
+// UPDATE
+app.put('/karts/:id', function(req, res) {
+    var data = req.body;
+    var query = 'UPDATE GoKarts SET ';
+    var params = [];
+
+    for(var key in data) {
+        query += `${key} = ?, `;
+        params.push(data[key]);
+    }
+
+    query = query.slice(0, -2); // Remove the last comma
+    query += ' WHERE kartID = ?';
+    params.push(req.params.id);
+
+    pool.query(query, params, function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
+});
+
+// DELETE
+app.delete('/karts/:id', function(req, res) {
+    var query = `DELETE FROM GoKarts WHERE kartID = ?`;
+    pool.query(query, [req.params.id], function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
 });
 
 app.get('/participants', function(req, res) {

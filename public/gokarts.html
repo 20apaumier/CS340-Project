@@ -18,52 +18,24 @@
                 <th>kartID</th>
                 <th>trackID</th>
                 <th>model</th>
-                <th>class</th>
+                <th>kartClass</th>
                 <th>maxSpeed</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>Model A</td>
-                <td>Standard</td>
-                <td>80</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>1</td>
-                <td>Model B</td>
-                <td>Super</td>
-                <td>90</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>2</td>
-                <td>Model C</td>
-                <td>Rally</td>
-                <td>70</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>3</td>
-                <td>Model D</td>
-                <td>Pro</td>
-                <td>110</td>
-            </tr>
         </tbody>
     </table>
 
     <p>&nbsp;</p>
 
-    <form style="padding: 10px;">
+    <form style="padding: 10px;" id = "addKartForm">
         <fieldset>
             <legend>Add GoKart</legend>
             <label>Track ID: </label>
             <input type="number" name="trackID">
             <label>Model: </label>
             <input type="text" name="model">
-            <label>Class: </label>
+            <label>Kart Class: </label>
             <input type="text" name="class">
             <label>Max Speed: </label>
             <input type="number" name="maxSpeed">
@@ -73,14 +45,19 @@
 
     <p>&nbsp;</p>
 
-    <form style="padding: 10px;">
+    <form style="padding: 10px;" id = "editKartForm">
         <fieldset>
             <legend>Edit GoKart</legend>
+            <label for="editKarts">Choose a Kart to Edit:</label>
+            <select id="editKarts" name="editKarts">
+                <!-- Kart options will be filled dynamically -->
+            </select>
+            <br/>
             <label>Track ID: </label>
             <input type="number" name="trackID">
             <label>Model: </label>
             <input type="text" name="model">
-            <label>Class: </label>
+            <label>Kart Class: </label>
             <input type="text" name="class">
             <label>Max Speed: </label>
             <input type="number" name="maxSpeed">
@@ -90,19 +67,112 @@
 
     <p>&nbsp;</p>
 
-    <form style="padding: 10px;">
+    <form style="padding: 10px;" id = "deleteKartForm">
         <fieldset>
             <legend>Delete GoKart</legend>
-            <label for="gokarts">Choose a GoKart to Delete:</label>
-            <select id="gokarts" name="gokarts">
-                <option value="gokart1">GoKart 1</option>
-                <option value="gokart2">GoKart 2</option>
-                <option value="gokart3">GoKart 3</option>
-                <option value="gokart4">GoKart 4</option>
+            <label for="karts">Choose a Kart to Delete:</label>
+            <select id="karts" name="karts">
             </select>
-            <input type="submit" value="Delete GoKart">
+            <input type="submit" value="Delete Kart">
         </fieldset>
     </form>
+
+    <script>
+
+        // READ
+        $(document).ready(function(){
+            $.ajax({
+                url: '/karts',
+                type: 'GET',
+                success: function(response) {
+                    var tbodyEl = $('tbody');
+                    var selectEl = $('#karts');
+                    var editSelectEl = $('#editKarts');
+                    
+                    selectEl.empty();
+                    editSelectEl.empty();
+    
+                    response.forEach(function(row) {
+                        tbodyEl.append('\
+                            <tr>\
+                                <td class="kartID">' + row.kartID + '</td>\
+                                <td class="trackID">' + row.trackID + '</td>\
+                                <td class="model">' + row.model + '</td>\
+                                <td class="kartClass">' + row.kartClass + '</td>\
+                                <td class="maxSpeed">' + row.maxSpeed + '</td>\
+                            </tr>\
+                        ');
+    
+                        selectEl.append('\
+                            <option value="' + row.kartID + '">' + row.model + '</option>\
+                        ');
+                        editSelectEl.append('\
+                            <option value="' + row.kartID + '">' + row.model + '</option>\
+                        ');
+                    });
+                }
+            });
+        });
+    
+        // CREATE
+        $('#addKartForm').submit(function(event){
+            event.preventDefault();
+            var data = $(this).serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+            $.ajax({
+                url: '/karts',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log('Kart added successfully');
+                    location.reload();
+                }
+            });
+        });
+    
+        // UPDATE
+        $('#editKartForm').submit(function(event){
+            event.preventDefault();
+            var kartID = $('#editKarts').val();
+    
+            var data = $(this).serializeArray().reduce(function(obj, item) {
+                if(item.name !== 'editKarts' && item.value) {
+                    obj[item.name] = item.value;
+                }
+                return obj;
+            }, {});
+    
+            $.ajax({
+                url: '/karts/' + kartID,
+                type: 'PUT',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log('Kart updated successfully');
+                    location.reload();
+                }
+            });
+        });
+    
+        // DELETE
+        $('#deleteKartForm').submit(function(event){
+            event.preventDefault();
+            var kartID = $('#karts').val();
+            $.ajax({
+                url: '/karts/' + kartID,
+                type: 'DELETE',
+                success: function(response) {
+                    console.log('Kart deleted successfully');
+                    location.reload();
+                }
+            });
+        });
+    
+    </script>
+
 </body>
 <footer>
     <p>&copy; 2023 Andrew Paumier & Seth Bard</p>
