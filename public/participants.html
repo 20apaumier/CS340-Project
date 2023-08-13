@@ -13,65 +13,25 @@
     <h2> Feel free to add, update or delete participants! </h2>
 
     <table border = "1" cellpadding = "5">
-    <thead>
-        <tr>
-        <th>participantID</th>
-        <th>raceID</th>
-        <th>kartID</th>
-        <th>customerID</th>
-        <th>finishPosition</th>
-        <th>lap1Time</th>
-        <th>lap2Time</th>
-        <th>lap3Time</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>57</td>
-        <td>58</td>
-        <td>56</td>
-        </tr>
-        <tr>
-        <td>2</td>
-        <td>1</td>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-        <td>60</td>
-        <td>59</td>
-        <td>61</td>
-        </tr>
-        <tr>
-        <td>3</td>
-        <td>2</td>
-        <td>3</td>
-        <td>3</td>
-        <td>3</td>
-        <td>210</td>
-        <td>205</td>
-        <td>207</td>
-        </tr>
-        <tr>
-        <td>4</td>
-        <td>2</td>
-        <td>4</td>
-        <td>4</td>
-        <td>4</td>
-        <td>212</td>
-        <td>209</td>
-        <td>211</td>
-        </tr>
-    </tbody>
+        <thead>
+            <tr>
+            <th>participantID</th>
+            <th>raceID</th>
+            <th>kartID</th>
+            <th>customerID</th>
+            <th>finishPosition</th>
+            <th>lap1Time</th>
+            <th>lap2Time</th>
+            <th>lap3Time</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
     </table>
 
     <p>&nbsp;</p>
 
-    <form style="padding: 10px;">
+    <form style="padding: 10px;" id = "addParticipantForm">
         <fieldset>
             <legend>Add Participant</legend>
             <label>Race ID: </label>
@@ -94,9 +54,14 @@
 
     <p>&nbsp;</p>
 
-    <form style="padding: 10px;">
+    <form style="padding: 10px;" id = "editParticipantForm">
         <fieldset>
             <legend>Edit Participant</legend>
+            <label for="editParticipants">Choose a Participant to Edit:</label>
+            <select id="editParticipants" name="editParticipants">
+                <!-- Participant options will be filled dynamically -->
+            </select>
+            <br/>
             <label>Race ID: </label>
             <input type = "number" name = "raceID">
             <label>Kart ID: </label>
@@ -122,14 +87,110 @@
             <Legend>Delete Participant</Legend>
             <label for="participants">Choose a Participant to Delete:</label>
             <select id="participants" name="participants">
-                <option value="participant1">Participant 1</option>
-                <option value="participant2">Participant 2</option>
-                <option value="participant3">Participant 3</option>
-                <option value="participant4">Participant 4</option>
             </select>
             <input type="submit" value="Delete Participant">
         </fieldset>
     </form>
+
+    <script>
+
+        // READ
+        $(document).ready(function(){
+            $.ajax({
+                url: '/participants',
+                type: 'GET',
+                success: function(response) {
+                    var tbodyEl = $('tbody');
+                    var selectEl = $('#participants');
+                    var editSelectEl = $('#editParticipants');
+                    
+                    selectEl.empty();
+                    editSelectEl.empty();
+    
+                    response.forEach(function(row) {
+                        tbodyEl.append('\
+                            <tr>\
+                                <td class="participantID">' + row.participantID + '</td>\
+                                <td class="raceID">' + row.raceID + '</td>\
+                                <td class="kartID">' + row.kartID + '</td>\
+                                <td class="customerID">' + row.customerID + '</td>\
+                                <td class="finishPosition">' + row.finishPosition + '</td>\
+                                <td class="lap1Time">' + row.lap1Time + '</td>\
+                                <td class="lap2Time">' + row.lap2Time + '</td>\
+                                <td class="lap3Time">' + row.lap3Time + '</td>\
+                            </tr>\
+                        ');
+    
+                        selectEl.append('\
+                            <option value="' + row.participantID + '">' + row.customerID + '</option>\
+                        ');
+                        editSelectEl.append('\
+                            <option value="' + row.participantID + '">' + row.customerID + '</option>\
+                        ');
+                    });
+                }
+            });
+        });
+    
+        // CREATE
+        $('#addParticipantForm').submit(function(event){
+            event.preventDefault();
+            var data = $(this).serializeArray().reduce(function(obj, item) {
+                obj[item.name] = item.value;
+                return obj;
+            }, {});
+            $.ajax({
+                url: '/participants',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log('Participant added successfully');
+                    location.reload();
+                }
+            });
+        });
+    
+        // UPDATE
+        $('#editParticipantForm').submit(function(event){
+            event.preventDefault();
+            var participantID = $('#editParticipants').val();
+    
+            var data = $(this).serializeArray().reduce(function(obj, item) {
+                if(item.name !== 'editParticipants' && item.value) {
+                    obj[item.name] = item.value;
+                }
+                return obj;
+            }, {});
+    
+            $.ajax({
+                url: '/participants/' + participantID,
+                type: 'PUT',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log('Participant updated successfully');
+                    location.reload();
+                }
+            });
+        });
+    
+        // DELETE
+        $('#deleteParticipantForm').submit(function(event){
+            event.preventDefault();
+            var participantsID = $('#participants').val();
+            $.ajax({
+                url: '/participants/' + participantID,
+                type: 'DELETE',
+                success: function(response) {
+                    console.log('participant deleted successfully');
+                    location.reload();
+                }
+            });
+        });
+    
+    </script>
+
 </body>
 <footer>
     <p>&copy; 2023 Andrew Paumier & Seth Bard</p>

@@ -141,8 +141,65 @@ app.delete('/karts/:id', function(req, res) {
     });
 });
 
+// CREATE
+app.post('/participants', function(req, res) {
+    var {raceID, kartID, customerID, finishPosition, lap1Time, lap2Time, lap3Time} = req.body;
+    var query = `INSERT INTO Races (raceID, kartID, customerID, finishPosition, lap1Time, lap2Time, lap3Time) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    pool.query(query, [trackID, date, winner], function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
+});
+
+// READ
 app.get('/participants', function(req, res) {
-    res.sendFile(path.join(__dirname, 'public/participants.html'));
+    var query = 'SELECT * FROM Participants';
+    pool.query(query, function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.json(result);
+    });
+});
+
+// UPDATE
+app.put('/participants/:id', function(req, res) {
+    var data = req.body;
+    var query = 'UPDATE Participants SET ';
+    var params = [];
+
+    for(var key in data) {
+        query += `${key} = ?, `;
+        params.push(data[key]);
+    }
+
+    query = query.slice(0, -2); // Remove the last comma
+    query += ' WHERE participantID = ?';
+    params.push(req.params.id);
+
+    pool.query(query, params, function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
+});
+
+// DELETE
+app.delete('/participants/:id', function(req, res) {
+    var query = `DELETE FROM Participants WHERE participantID = ?`;
+    pool.query(query, [req.params.id], function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
 });
 
 // CREATE
