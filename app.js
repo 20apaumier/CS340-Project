@@ -92,8 +92,66 @@ app.get('/races', function(req, res) {
     res.sendFile(path.join(__dirname, 'public/races.html'));
 });
 
+// CREATE
+app.post('/tracks', function(req, res) {
+    var {trackName, length, surfaceType, recordLapTime, averageLapTime} = req.body;
+    var query = `INSERT INTO Tracks (trackName, length, surfaceType, recordLapTime, averageLapTime) VALUES (?, ?, ?, ?, ?)`;
+    pool.query(query, [trackName, length, surfaceType, recordLapTime, averageLapTime], function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
+});
+
+// READ
 app.get('/tracks', function(req, res) {
-    res.sendFile(path.join(__dirname, 'public/racks.html'));
+    console.log("reading tracks....");
+    var query = 'SELECT * FROM Tracks';
+    pool.query(query, function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.json(result);
+    });
+});
+
+// UPDATE
+app.put('/tracks/:id', function(req, res) {
+    var data = req.body;
+    var query = 'UPDATE Tracks SET ';
+    var params = [];
+
+    for(var key in data) {
+        query += `${key} = ?, `;
+        params.push(data[key]);
+    }
+
+    query = query.slice(0, -2); // Remove the last comma
+    query += ' WHERE trackID = ?';
+    params.push(req.params.id);
+
+    pool.query(query, params, function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
+});
+
+// DELETE
+app.delete('/tracks/:id', function(req, res) {
+    var query = `DELETE FROM Tracks WHERE trackID = ?`;
+    pool.query(query, [req.params.id], function(err, result) {
+        if (err) {
+            res.sendStatus(500);
+            return console.log(err);
+        }
+        res.sendStatus(200);
+    });
 });
 
 /*

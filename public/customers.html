@@ -98,10 +98,9 @@
             type: 'GET',
             success: function(response) {
                 var tbodyEl = $('tbody');
-                var selectEl = $('#customers'); // select element for delete form
-                var editSelectEl = $('#editCustomers'); // select element for edit form
+                var selectEl = $('#customers');
+                var editSelectEl = $('#editCustomers');
                 
-                // Clear the select dropdowns before populating them
                 selectEl.empty();
                 editSelectEl.empty();
 
@@ -118,7 +117,6 @@
                         </tr>\
                     ');
 
-                    // Append each customer to the select dropdowns
                     selectEl.append('\
                         <option value="' + row.customerID + '">' + row.name + '</option>\
                     ');
@@ -132,7 +130,7 @@
 
     // CREATE
     $('#addCustomerForm').submit(function(event){
-        event.preventDefault(); // prevent form from refreshing page
+        event.preventDefault();
         var data = $(this).serializeArray().reduce(function(obj, item) {
             obj[item.name] = item.value;
             return obj;
@@ -144,7 +142,7 @@
             contentType: 'application/json',
             success: function(response) {
                 console.log('Customer added successfully');
-                location.reload(); // reload page to see the changes
+                location.reload();
             }
         });
     });
@@ -152,11 +150,11 @@
     // UPDATE
     $('#editCustomerForm').submit(function(event){
         event.preventDefault();
-        var customerID = $('#editCustomers').val(); // get the selected customer's ID
+        var customerID = $('#editCustomers').val();
 
         var data = $(this).serializeArray().reduce(function(obj, item) {
-            if(item.name !== 'editCustomers' && item.value) { // ignore 'editCustomers' and empty fields
-                obj[item.name] = item.value; // Only add fields that are filled out
+            if(item.name !== 'editCustomers' && item.value) {
+                obj[item.name] = item.value;
             }
             return obj;
         }, {});
