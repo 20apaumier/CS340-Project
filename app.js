@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// CREATE
+// CREATE Customers
 app.post('/customers', function(req, res) {
     var {name, age, contactInfo, racesCompleted, averageFinishPosition, firstPlaceFinishes} = req.body;
     var query = `INSERT INTO Customers (name, age, contactInfo, racesCompleted, averageFinishPosition, firstPlaceFinishes) VALUES (?, ?, ?, ?, ?, ?)`;
@@ -32,7 +32,7 @@ app.post('/customers', function(req, res) {
     });
 });
 
-// READ
+// READ Customers
 app.get('/customers', function(req, res) {
     var query = 'SELECT * FROM Customers';
     pool.query(query, function(err, result) {
@@ -44,7 +44,7 @@ app.get('/customers', function(req, res) {
     });
 });
 
-// UPDATE
+// UPDATE Customers
 app.put('/customers/:id', function(req, res) {
     var data = req.body;
     var query = 'UPDATE Customers SET ';
@@ -68,7 +68,7 @@ app.put('/customers/:id', function(req, res) {
     });
 });
 
-// DELETE
+// DELETE Customers
 app.delete('/customers/:id', function(req, res) {
     var query = `DELETE FROM Customers WHERE customerID = ?`;
     pool.query(query, [req.params.id], function(err, result) {
@@ -80,7 +80,7 @@ app.delete('/customers/:id', function(req, res) {
     });
 });
 
-// CREATE
+// CREATE Karts
 app.post('/karts', function(req, res) {
     var {trackID, model, kartClass, maxSpeed} = req.body;
     var query = `INSERT INTO GoKarts (trackID, model, kartClass, maxSpeed) VALUES (?, ?, ?, ?)`;
@@ -93,7 +93,7 @@ app.post('/karts', function(req, res) {
     });
 });
 
-// READ
+// READ Karts
 app.get('/karts', function(req, res) {
     var query = 'SELECT * FROM GoKarts';
     pool.query(query, function(err, result) {
@@ -105,7 +105,7 @@ app.get('/karts', function(req, res) {
     });
 });
 
-// UPDATE
+// UPDATE Karts
 app.put('/karts/:id', function(req, res) {
     var data = req.body;
     var query = 'UPDATE GoKarts SET ';
@@ -129,7 +129,7 @@ app.put('/karts/:id', function(req, res) {
     });
 });
 
-// DELETE
+// DELETE Karts
 app.delete('/karts/:id', function(req, res) {
     var query = `DELETE FROM GoKarts WHERE kartID = ?`;
     pool.query(query, [req.params.id], function(err, result) {
@@ -141,11 +141,11 @@ app.delete('/karts/:id', function(req, res) {
     });
 });
 
-// CREATE
+// CREATE Participants
 app.post('/participants', function(req, res) {
     var {raceID, kartID, customerID, finishPosition, lap1Time, lap2Time, lap3Time} = req.body;
-    var query = `INSERT INTO Races (raceID, kartID, customerID, finishPosition, lap1Time, lap2Time, lap3Time) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    pool.query(query, [trackID, date, winner], function(err, result) {
+    var query = `INSERT INTO Participants (raceID, kartID, customerID, finishPosition, lap1Time, lap2Time, lap3Time) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    pool.query(query, [raceID, kartID, customerID, finishPosition, lap1Time, lap2Time, lap3Time], function(err, result) {
         if (err) {
             res.sendStatus(500);
             return console.log(err);
@@ -154,7 +154,7 @@ app.post('/participants', function(req, res) {
     });
 });
 
-// READ
+// READ Participants
 app.get('/participants', function(req, res) {
     var query = 'SELECT * FROM Participants';
     pool.query(query, function(err, result) {
@@ -166,7 +166,7 @@ app.get('/participants', function(req, res) {
     });
 });
 
-// UPDATE
+// UPDATE Participants
 app.put('/participants/:id', function(req, res) {
     var data = req.body;
     var query = 'UPDATE Participants SET ';
@@ -190,7 +190,7 @@ app.put('/participants/:id', function(req, res) {
     });
 });
 
-// DELETE
+// DELETE Participants
 app.delete('/participants/:id', function(req, res) {
     var query = `DELETE FROM Participants WHERE participantID = ?`;
     pool.query(query, [req.params.id], function(err, result) {
@@ -202,7 +202,7 @@ app.delete('/participants/:id', function(req, res) {
     });
 });
 
-// CREATE
+// CREATE Races
 app.post('/races', function(req, res) {
     var {trackID, date, winner} = req.body;
     var query = `INSERT INTO Races (trackID, date, winner) VALUES (?, ?, ?)`;
@@ -215,7 +215,7 @@ app.post('/races', function(req, res) {
     });
 });
 
-// READ
+// READ Races
 app.get('/races', function(req, res) {
     var query = 'SELECT * FROM Races';
     pool.query(query, function(err, result) {
@@ -227,7 +227,7 @@ app.get('/races', function(req, res) {
     });
 });
 
-// UPDATE
+// UPDATE Races
 app.put('/races/:id', function(req, res) {
     var data = req.body;
     var query = 'UPDATE Races SET ';
@@ -251,7 +251,7 @@ app.put('/races/:id', function(req, res) {
     });
 });
 
-// DELETE
+// DELETE Races
 app.delete('/races/:id', function(req, res) {
     var query = `DELETE FROM Races WHERE raceID = ?`;
     pool.query(query, [req.params.id], function(err, result) {
@@ -263,7 +263,7 @@ app.delete('/races/:id', function(req, res) {
     });
 });
 
-// CREATE
+// CREATE Tracks
 app.post('/tracks', function(req, res) {
     var {trackName, length, surfaceType, recordLapTime, averageLapTime} = req.body;
     var query = `INSERT INTO Tracks (trackName, length, surfaceType, recordLapTime, averageLapTime) VALUES (?, ?, ?, ?, ?)`;
@@ -276,7 +276,7 @@ app.post('/tracks', function(req, res) {
     });
 });
 
-// READ
+// READ Tracks
 app.get('/tracks', function(req, res) {
     console.log("reading tracks....");
     var query = 'SELECT * FROM Tracks';
@@ -289,7 +289,7 @@ app.get('/tracks', function(req, res) {
     });
 });
 
-// UPDATE
+// UPDATE Tracks
 app.put('/tracks/:id', function(req, res) {
     var data = req.body;
     var query = 'UPDATE Tracks SET ';
@@ -313,7 +313,7 @@ app.put('/tracks/:id', function(req, res) {
     });
 });
 
-// DELETE
+// DELETE Tracks
 app.delete('/tracks/:id', function(req, res) {
     var query = `DELETE FROM Tracks WHERE trackID = ?`;
     pool.query(query, [req.params.id], function(err, result) {
